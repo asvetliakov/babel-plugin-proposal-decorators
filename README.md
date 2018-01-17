@@ -1,0 +1,1 @@
+Just a copy of [babel decorators legacy](https://github.com/babel/babel/tree/master/packages/babel-plugin-proposal-decorators/) with some monkey-patching of decorator helper to fix few decorators errors. Don't use until you know what you're doing.
