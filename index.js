@@ -43,5 +43,5 @@ _helpers.default.applyDecoratedDescriptor = defineHelper(`
     }
 `);
 
-var _default = _proposalDecorator;
+var _default = _proposalDecorator.default;
 exports.default = _default;
