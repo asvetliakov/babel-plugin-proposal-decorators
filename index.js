@@ -9,12 +9,12 @@ var _proposalDecorator = _interopRequireDefault(require("@babel/plugin-proposal-
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var defineHelper = _template.default.program({
-  placeholderPattern: false
+const helper = minVersion => tpl => ({
+    minVersion,
+    ast: () => _template.default.program.ast(tpl)
 });
 
-// Monkey patch decorator helper
-_helpers.default.applyDecoratedDescriptor = defineHelper(`
+_helpers.default.applyDecoratedDescriptor = helper("7.0.0-beta.0")`
     export default function _applyDecoratedDescriptor(target, property, decorators, descriptor, context){
         var desc = {};
         Object['ke' + 'ys'](descriptor).forEach(function(key){
@@ -23,9 +23,14 @@ _helpers.default.applyDecoratedDescriptor = defineHelper(`
         desc.enumerable = !!desc.enumerable;
         desc.configurable = !!desc.configurable;
         desc.writable = true;
+        if ('value' in desc || desc.initializer){
+            desc.writable = true;
+        }
+
         desc = decorators.slice().reverse().reduce(function(desc, decorator){
             return decorator(target, property, desc) || desc;
         }, desc);
+
         if (context && desc.initializer !== void 0){
             desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
             desc.initializer = undefined;
@@ -39,9 +44,10 @@ _helpers.default.applyDecoratedDescriptor = defineHelper(`
             Object['define' + 'Property'](target, property, desc);
             desc = null;
         }
+
         return desc;
     }
-`);
+`;
 
 var _default = _proposalDecorator.default;
 exports.default = _default;

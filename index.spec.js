@@ -20,13 +20,10 @@ class A {
 
 it("Works", () => {
     expect(transform(source, {
-        presets: [
-            ["@babel/stage-3", { loose: true }],
-            "@babel/es2017",
-            "@babel/es2016",
-        ],
+        presets: [],
         plugins: [
-            plugin
+            [plugin, { legacy: true }],
+            ["@babel/plugin-proposal-class-properties", { loose: true }],
         ]
     }).code).toMatchSnapshot();
 });
